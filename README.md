@@ -2,7 +2,7 @@
 
 `Limbo.Umbraco.Fetch` is a package for Umbraco 9 for downloaded external files to disk to be used in your Umbraco installation.
 
-For instance, as shown in [Configuration](#configuration), the package can be used to download the RSS feed of my blog to disk, qhich can then be used to display my recent blog posts on the website.
+For instance, as shown in [Configuration](#configuration), the package can be used to download the RSS feed of my blog to disk, which can then be used to display my recent blog posts on the website.
 
 ## Installation
 
@@ -24,7 +24,7 @@ To configure the package, add a `Limbo:Fetch` section to your `appsettings.json`
         {
           "Alias": "MyBlog",
           "Url": "http://www.bjerner.dk/blog/rss",
-          "Path": "~/App_Data/FetchFeed/BjernerRss.xml",
+          "Path": "~/App_Data/Fetch/BjernerRss.xml",
           "Interval": 30
         }
       ]
