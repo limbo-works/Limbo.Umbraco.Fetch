@@ -29,7 +29,7 @@ To configure the package, add a `Limbo:Fetch` section to your `appsettings.json`
         {
           "Alias": "MyBlog",
           "Url": "http://www.bjerner.dk/blog/rss",
-          "Path": "~/App_Data/Fetch/BjernerRss.xml",
+          "Path": "~/umbraco/Data/TEMP/Fetch/BjernerRss.xml",
           "Interval": 30
         }
       ]
