@@ -10,121 +10,119 @@ using Skybrud.Essentials.Time;
 using Skybrud.Essentials.Time.Iso8601;
 using Umbraco.Cms.Core.Extensions;
 
-namespace Limbo.Umbraco.Fetch.Services {
+namespace Limbo.Umbraco.Fetch.Services;
+
+/// <summary>
+/// Service for fetching configured feeds.
+/// </summary>
+public class FetchService {
+
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IOptions<FetchSettings> _fetchSettings;
+
+    #region Constructors
 
     /// <summary>
-    /// Service for fetching configured feeds.
+    /// Initializes a new instance based on the specified dependencies.
     /// </summary>
-    public class FetchService {
+    /// <param name="webHostEnvironment">The current <see cref="IWebHostEnvironment"/>.</param>
+    /// <param name="fetchSettings">A reference to the fetch settings.</param>
+    public FetchService(IWebHostEnvironment webHostEnvironment, IOptions<FetchSettings> fetchSettings) {
+        _webHostEnvironment = webHostEnvironment;
+        _fetchSettings = fetchSettings;
+    }
 
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IOptions<FetchSettings> _fetchSettings;
+    #endregion
 
-        #region Constructors
+    #region Member methods
 
-        /// <summary>
-        /// Initializes a new instance based on the specified dependencies.
-        /// </summary>
-        /// <param name="webHostEnvironment">The current <see cref="IWebHostEnvironment"/>.</param>
-        /// <param name="fetchSettings">A reference to the fetch settings.</param>
-        public FetchService(IWebHostEnvironment webHostEnvironment, IOptions<FetchSettings> fetchSettings) {
-            _webHostEnvironment = webHostEnvironment;
-            _fetchSettings = fetchSettings;
-        }
+    /// <summary>
+    /// Attempts to fetch all configured feeds.
+    /// </summary>
+    public StringBuilder FetchAll() {
 
-        #endregion
+        StringBuilder log = new();
 
-        #region Member methods
+        int i = 0;
 
-        /// <summary>
-        /// Attempts to fetch all configured feeds.
-        /// </summary>
-        public StringBuilder FetchAll() {
+        foreach (FetchFeed feed in _fetchSettings.Value.Feeds) {
 
-            StringBuilder log = new();
-
-            int i = 0;
-
-            foreach (FetchFeed feed in _fetchSettings.Value.Feeds) {
-
-                if (i++ > 0) {
-                    log.AppendLine();
-                    log.AppendLine();
-                    log.AppendLine();
-                }
-
-                log.AppendLine($"{EssentialsTime.UtcNow.ToString(Iso8601Constants.DateTimeMilliseconds)}");
-                log.AppendLine($"Fetching feed with alias '{feed.Alias}'...");
+            if (i++ > 0) {
                 log.AppendLine();
+                log.AppendLine();
+                log.AppendLine();
+            }
 
-                IHttpRequest request = null;
-                IHttpResponse response = null;
+            log.AppendLine($"{EssentialsTime.UtcNow.ToString(Iso8601Constants.DateTimeMilliseconds)}");
+            log.AppendLine($"Fetching feed with alias '{feed.Alias}'...");
+            log.AppendLine();
 
-                try {
+            IHttpRequest request = null;
+            IHttpResponse response = null;
 
-                    if (string.IsNullOrWhiteSpace(feed.Url)) throw new PropertyNotSetException(nameof(feed.Url));
-                    if (string.IsNullOrWhiteSpace(feed.Path)) throw new PropertyNotSetException(nameof(feed.Path));
+            try {
 
-                    if (string.IsNullOrWhiteSpace(feed.AbsolutePath)) {
-                        feed.AbsolutePath = feed.Path.StartsWith("~/") ? _webHostEnvironment.MapPathContentRoot(feed.Path) : feed.Path;
-                    }
+                if (string.IsNullOrWhiteSpace(feed.Url)) throw new PropertyNotSetException(nameof(feed.Url));
+                if (string.IsNullOrWhiteSpace(feed.Path)) throw new PropertyNotSetException(nameof(feed.Path));
 
-                    string path1 = feed.AbsolutePath;
-                    string path2 = $"{feed.AbsolutePath}.error";
-                    string path3 = Path.GetDirectoryName(path1);
+                if (string.IsNullOrWhiteSpace(feed.AbsolutePath)) {
+                    feed.AbsolutePath = feed.Path.StartsWith("~/") ? _webHostEnvironment.MapPathContentRoot(feed.Path) : feed.Path;
+                }
 
-                    if (!Directory.Exists(path3)) Directory.CreateDirectory(path3);
+                string path1 = feed.AbsolutePath;
+                string path2 = $"{feed.AbsolutePath}.error";
+                string path3 = Path.GetDirectoryName(path1);
 
-                    if (File.GetLastWriteTimeUtc(path1) > DateTime.UtcNow.Subtract(feed.Interval)) {
-                        log.AppendLine("> Skipping feed as the file was updated within the specified interval...");
-                        continue;
-                    }
+                if (!Directory.Exists(path3)) Directory.CreateDirectory(path3);
 
-                    if (File.GetLastWriteTimeUtc(path2) > DateTime.UtcNow.Subtract(feed.Interval)) {
-                        log.AppendLine("> Skipping feed as the error file was updated within the specified interval...");
-                        continue;
-                    }
+                if (File.GetLastWriteTimeUtc(path1) > DateTime.UtcNow.Subtract(feed.Interval)) {
+                    log.AppendLine("> Skipping feed as the file was updated within the specified interval...");
+                    continue;
+                }
 
-                    request = new HttpRequest {
-                        Url = feed.Url
-                    };
+                if (File.GetLastWriteTimeUtc(path2) > DateTime.UtcNow.Subtract(feed.Interval)) {
+                    log.AppendLine("> Skipping feed as the error file was updated within the specified interval...");
+                    continue;
+                }
 
-                    feed.PrepareRequest?.Invoke(feed, request);
+                request = new HttpRequest {
+                    Url = feed.Url
+                };
 
-                    response = request.GetResponse();
+                feed.PrepareRequest?.Invoke(feed, request);
 
-                    log.AppendLine("> " + (int) response.StatusCode + " " + response.StatusCode);
+                response = request.GetResponse();
 
-                    if ((int) response.StatusCode >= 200 && (int) response.StatusCode < 300) {
+                log.AppendLine("> " + (int) response.StatusCode + " " + response.StatusCode);
 
-                        File.WriteAllBytes(path1, response.BinaryBody);
+                if ((int) response.StatusCode >= 200 && (int) response.StatusCode < 300) {
 
-                        feed.OnSuccess?.Invoke(feed, request, response);
+                    File.WriteAllBytes(path1, response.BinaryBody);
 
-                    } else {
+                    feed.OnSuccess?.Invoke(feed, request, response);
 
-                        File.WriteAllBytes(path2, response.BinaryBody);
+                } else {
 
-                        feed.OnError?.Invoke(feed, request, response, null);
+                    File.WriteAllBytes(path2, response.BinaryBody);
 
-                    }
-
-                } catch (Exception ex) {
-
-                    log.AppendLine(ex + "");
-
-                    feed?.OnError(feed, request, response, ex);
+                    feed.OnError?.Invoke(feed, request, response, null);
 
                 }
+
+            } catch (Exception ex) {
+
+                log.AppendLine(ex + "");
+
+                feed?.OnError(feed, request, response, ex);
 
             }
 
-            return log;
-
         }
 
-        #endregion
+        return log;
 
     }
+
+    #endregion
 
 }
