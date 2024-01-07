@@ -3,19 +3,40 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Fetch.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Fetch)
 [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Fetch.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Fetch)
-[![Our Umbraco](https://img.shields.io/badge/our-umbraco-%233544B1)](https://our.umbraco.com/packages/backoffice-extensions/limbo-fetch/)
+[![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.fetch)
 
-`Limbo.Umbraco.Fetch` is a package for Umbraco 9 for downloaded external files to disk to be used in your Umbraco installation.
+`Limbo.Umbraco.Fetch` is a package for Umbraco for downloaded external files to disk to be used in your Umbraco installation.
 
 For instance, as shown in [Configuration](#configuration), the package can be used to download the RSS feed of my blog to disk, which can then be used to display my recent blog posts on the website.
 
+
+
+<br /><br /><br />
+
 ## Installation
 
-Install for Umbraco 9 via [NuGet](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/9.0.0):
+Install for Umbraco 10, 11 or 12 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/10.0.0).
+
+.NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Fetch --version 9.0.0
+dotnet add package Limbo.Umbraco.Fetch --version 10.0.0
 ```
+
+NuGet Package Manager:
+
+```
+Install-Package Limbo.Umbraco.Fetch -Version 10.0.0
+```
+
+For other versions of Umbraco, see the following branches:
+
+- [**`v9/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v9/main) (Umbraco 9)
+- [**`v13/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v13/main) (Umbraco 13)
+
+
+
+<br /><br /><br />
 
 ## Configuration
 
