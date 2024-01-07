@@ -10,7 +10,7 @@ using Skybrud.Essentials.Time.Iso8601;
 using Umbraco.Cms.Core.Hosting;
 
 namespace Limbo.Umbraco.Fetch.Services {
-   
+
     /// <summary>
     /// Service for fetching configured feeds.
     /// </summary>
