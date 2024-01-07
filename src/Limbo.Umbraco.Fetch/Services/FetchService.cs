@@ -57,8 +57,8 @@ public class FetchService {
             log.AppendLine($"Fetching feed with alias '{feed.Alias}'...");
             log.AppendLine();
 
-            IHttpRequest request = null;
-            IHttpResponse response = null;
+            IHttpRequest? request = null;
+            IHttpResponse? response = null;
 
             try {
 
@@ -71,7 +71,7 @@ public class FetchService {
 
                 string path1 = feed.AbsolutePath;
                 string path2 = $"{feed.AbsolutePath}.error";
-                string path3 = Path.GetDirectoryName(path1);
+                string path3 = Path.GetDirectoryName(path1)!;
 
                 if (!Directory.Exists(path3)) Directory.CreateDirectory(path3);
 
@@ -113,7 +113,7 @@ public class FetchService {
 
                 log.AppendLine(ex + "");
 
-                feed?.OnError(feed, request, response, ex);
+                feed.OnError?.Invoke(feed, request, response, ex);
 
             }
 

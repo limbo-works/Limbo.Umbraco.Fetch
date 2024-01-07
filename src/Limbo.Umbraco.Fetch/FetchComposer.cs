@@ -27,7 +27,7 @@ public class FetchComposer : IComposer {
 
         IConfigurationSection section = configuration.GetSection("Limbo:Fetch");
 
-        IConfigurationSection feeds = section?.GetSection("Feeds");
+        IConfigurationSection? feeds = section?.GetSection("Feeds");
         if (feeds == null) return;
 
         HashSet<string> aliases = new();
@@ -35,10 +35,10 @@ public class FetchComposer : IComposer {
         foreach (IConfigurationSection child in feeds.GetChildren()) {
 
             // Read from properties from their respective child sections
-            string alias = child.GetSection("Alias")?.Value;
-            string url = child.GetSection("Url")?.Value;
-            string path = child.GetSection("Path")?.Value;
-            string interval = child.GetSection("Interval")?.Value;
+            string? alias = child.GetSection("Alias")?.Value;
+            string? url = child.GetSection("Url")?.Value;
+            string? path = child.GetSection("Path")?.Value;
+            string? interval = child.GetSection("Interval")?.Value;
 
             // Validate required properties
             if (string.IsNullOrWhiteSpace(alias)) throw new Exception("Feed does not specify an alias.");
@@ -67,7 +67,7 @@ public class FetchComposer : IComposer {
 
     }
 
-    private static TimeSpan ParseTimeSpan(FetchFeed feed, string value) {
+    private static TimeSpan ParseTimeSpan(FetchFeed feed, string? value) {
 
         // Set interval to 24 hours if not explicitly specified
         if (string.IsNullOrWhiteSpace(value)) return TimeSpan.FromHours(24);

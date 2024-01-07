@@ -14,22 +14,22 @@ public class FetchFeed {
     /// <summary>
     /// Gets or sets the alias of the feed.
     /// </summary>
-    public string Alias { get; set; }
+    public string Alias { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the URL of the feed.
     /// </summary>
-    public string Url { get; set; }
+    public string Url { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the path of the feed.
     /// </summary>
-    public string Path { get; set; }
+    public string Path { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the path of the feed.
     /// </summary>
-    public string AbsolutePath { get; set; }
+    public string AbsolutePath { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the internal.
@@ -40,19 +40,19 @@ public class FetchFeed {
     /// Gets or sets a callback to be used before getting the response.
     /// </summary>
     [Newtonsoft.Json.JsonIgnore]
-    public Action<FetchFeed, IHttpRequest> PrepareRequest { get; set; }
+    public Action<FetchFeed, IHttpRequest>? PrepareRequest { get; set; }
 
     /// <summary>
     /// Gets or sets a callback invoked when the feed is successfully fetched.
     /// </summary>
     [Newtonsoft.Json.JsonIgnore]
-    public Action<FetchFeed, IHttpRequest, IHttpResponse> OnSuccess { get; set; }
+    public Action<FetchFeed, IHttpRequest, IHttpResponse>? OnSuccess { get; set; }
 
     /// <summary>
     /// Gets or sets a callback invoked when fetching the feed URL fails.
     /// </summary>
     [Newtonsoft.Json.JsonIgnore]
-    public Action<FetchFeed, IHttpRequest, IHttpResponse, Exception> OnError { get; set; }
+    public Action<FetchFeed, IHttpRequest?, IHttpResponse?, Exception?>? OnError { get; set; }
 
     internal string IntervalInternal {
 

@@ -20,7 +20,7 @@ public class FetchTask : RecurringHostedServiceBase {
         _fetchService = fetchService;
     }
 
-    public override Task PerformExecuteAsync(object state) {
+    public override Task PerformExecuteAsync(object? state) {
         _fetchService.FetchAll();
         return Task.CompletedTask;
     }
