@@ -20,13 +20,13 @@ Install for Umbraco 13 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbr
 .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Fetch --version 10.0.0
+dotnet add package Limbo.Umbraco.Fetch --version 13.0.0
 ```
 
 NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.Fetch -Version 10.0.0
+Install-Package Limbo.Umbraco.Fetch -Version 13.0.0
 ```
 
 For other versions of Umbraco, see the following branches:
