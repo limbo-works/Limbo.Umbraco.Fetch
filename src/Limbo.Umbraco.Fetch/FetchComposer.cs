@@ -21,6 +21,7 @@ public class FetchComposer : IComposer {
         builder.Services.AddSingleton<FetchService>();
         builder.Services.AddOptions<FetchSettings>().Configure<IConfiguration, IWebHostEnvironment>(ConfigureBinder);
         builder.Services.AddHostedService<FetchTask>();
+        builder.ManifestFilters().Append<FetchManifestFilter>();
     }
 
     private static void ConfigureBinder(FetchSettings settings, IConfiguration configuration, IWebHostEnvironment webHostEnvironment) {
