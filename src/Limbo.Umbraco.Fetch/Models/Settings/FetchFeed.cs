@@ -3,7 +3,7 @@ using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Time.Xml;
 
 namespace Limbo.Umbraco.Fetch.Models.Settings {
-    
+
     /// <summary>
     /// Class representing a feed (aka an URL to be downloaded).
     /// </summary>
@@ -53,11 +53,11 @@ namespace Limbo.Umbraco.Fetch.Models.Settings {
         /// </summary>
         [Newtonsoft.Json.JsonIgnore]
         public Action<FetchFeed, IHttpRequest, IHttpResponse, Exception> OnError { get; set; }
-        
+
         internal string IntervalInternal {
-            
+
             set {
-                
+
                 if (int.TryParse(value, out int minutes)) {
                     Interval = TimeSpan.FromMinutes(minutes);
                     return;
@@ -73,7 +73,7 @@ namespace Limbo.Umbraco.Fetch.Models.Settings {
                 } catch {
                     // ignore
                 }
-                
+
                 throw new Exception($"Invalid interval specified: {value}");
 
             }

@@ -8,7 +8,7 @@ using Umbraco.Cms.Infrastructure.HostedServices;
 namespace Limbo.Umbraco.Fetch.Scheduling {
 
     public class FetchTask : RecurringHostedServiceBase {
-        
+
         private readonly FetchService _fetchService;
 
         private static TimeSpan Period => TimeSpan.FromMinutes(1);

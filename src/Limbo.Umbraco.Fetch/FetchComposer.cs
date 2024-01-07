@@ -13,9 +13,9 @@ using Umbraco.Cms.Core.Hosting;
 #pragma warning disable CS1591
 
 namespace Limbo.Umbraco.Fetch {
-    
+
     public class FetchComposer : IComposer {
-        
+
         public void Compose(IUmbracoBuilder builder) {
             builder.Services.AddSingleton<FetchService>();
             builder.Services.AddOptions<FetchSettings>().Configure<IConfiguration, IHostingEnvironment>(ConfigureBinder);
