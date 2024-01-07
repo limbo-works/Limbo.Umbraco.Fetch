@@ -15,7 +15,7 @@ For instance, as shown in [Configuration](#configuration), the package can be us
 
 ## Installation
 
-Install for Umbraco 10, 11 or 12 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/10.0.0).
+Install for Umbraco 13 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/13.0.0).
 
 .NET CLI:
 
@@ -32,7 +32,7 @@ Install-Package Limbo.Umbraco.Fetch -Version 10.0.0
 For other versions of Umbraco, see the following branches:
 
 - [**`v9/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v9/main) (Umbraco 9)
-- [**`v13/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v13/main) (Umbraco 13)
+- [**`v10/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v10/main) (Umbraco 10, 11 and 12)
 
 
 
