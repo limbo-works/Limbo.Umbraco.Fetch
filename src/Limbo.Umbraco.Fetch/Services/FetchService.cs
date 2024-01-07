@@ -2,12 +2,13 @@
 using System.IO;
 using System.Text;
 using Limbo.Umbraco.Fetch.Models.Settings;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Skybrud.Essentials.Common;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Time;
 using Skybrud.Essentials.Time.Iso8601;
-using Umbraco.Cms.Core.Hosting;
+using Umbraco.Cms.Core.Extensions;
 
 namespace Limbo.Umbraco.Fetch.Services {
 
@@ -16,7 +17,7 @@ namespace Limbo.Umbraco.Fetch.Services {
     /// </summary>
     public class FetchService {
 
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IOptions<FetchSettings> _fetchSettings;
 
         #region Constructors
@@ -24,10 +25,10 @@ namespace Limbo.Umbraco.Fetch.Services {
         /// <summary>
         /// Initializes a new instance based on the specified dependencies.
         /// </summary>
-        /// <param name="hostingEnvironment">The current <see cref="IHostingEnvironment"/>.</param>
+        /// <param name="webHostEnvironment">The current <see cref="IWebHostEnvironment"/>.</param>
         /// <param name="fetchSettings">A reference to the fetch settings.</param>
-        public FetchService(IHostingEnvironment hostingEnvironment, IOptions<FetchSettings> fetchSettings) {
-            _hostingEnvironment = hostingEnvironment;
+        public FetchService(IWebHostEnvironment webHostEnvironment, IOptions<FetchSettings> fetchSettings) {
+            _webHostEnvironment = webHostEnvironment;
             _fetchSettings = fetchSettings;
         }
 
@@ -65,7 +66,7 @@ namespace Limbo.Umbraco.Fetch.Services {
                     if (string.IsNullOrWhiteSpace(feed.Path)) throw new PropertyNotSetException(nameof(feed.Path));
 
                     if (string.IsNullOrWhiteSpace(feed.AbsolutePath)) {
-                        feed.AbsolutePath = feed.Path.StartsWith("~/") ? _hostingEnvironment.MapPathContentRoot(feed.Path) : feed.Path;
+                        feed.AbsolutePath = feed.Path.StartsWith("~/") ? _webHostEnvironment.MapPathContentRoot(feed.Path) : feed.Path;
                     }
 
                     string path1 = feed.AbsolutePath;

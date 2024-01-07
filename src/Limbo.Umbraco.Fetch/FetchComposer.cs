@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Limbo.Umbraco.Fetch.Models.Settings;
 using Limbo.Umbraco.Fetch.Scheduling;
 using Limbo.Umbraco.Fetch.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Skybrud.Essentials.Time.Xml;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
-using Umbraco.Cms.Core.Hosting;
+using Umbraco.Cms.Core.Extensions;
 
 #pragma warning disable CS1591
 
@@ -18,11 +19,11 @@ namespace Limbo.Umbraco.Fetch {
 
         public void Compose(IUmbracoBuilder builder) {
             builder.Services.AddSingleton<FetchService>();
-            builder.Services.AddOptions<FetchSettings>().Configure<IConfiguration, IHostingEnvironment>(ConfigureBinder);
+            builder.Services.AddOptions<FetchSettings>().Configure<IConfiguration, IWebHostEnvironment>(ConfigureBinder);
             builder.Services.AddHostedService<FetchTask>();
         }
 
-        private void ConfigureBinder(FetchSettings settings, IConfiguration configuration, IHostingEnvironment hostingEnvironment) {
+        private void ConfigureBinder(FetchSettings settings, IConfiguration configuration, IWebHostEnvironment webHostEnvironment) {
 
             var section = configuration.GetSection("Limbo:Fetch");
 
@@ -53,7 +54,7 @@ namespace Limbo.Umbraco.Fetch {
                     Alias = alias,
                     Url = url,
                     Path = path,
-                    AbsolutePath = path.StartsWith("~/") ? hostingEnvironment.MapPathContentRoot(path) : path
+                    AbsolutePath = path.StartsWith("~/") ? webHostEnvironment.MapPathContentRoot(path) : path
                 };
 
                 // Parse the interval
@@ -66,7 +67,7 @@ namespace Limbo.Umbraco.Fetch {
 
         }
 
-        private TimeSpan ParseTimeSpan(FetchFeed feed, string value) {
+        private static TimeSpan ParseTimeSpan(FetchFeed feed, string value) {
 
             // Set interval to 24 hours if not explicitly specified
             if (string.IsNullOrWhiteSpace(value)) return TimeSpan.FromHours(24);

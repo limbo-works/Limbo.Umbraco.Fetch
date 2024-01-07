@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Limbo.Umbraco.Fetch.Services;
+using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Infrastructure.HostedServices;
 
 #pragma warning disable CS1591
@@ -15,7 +16,7 @@ namespace Limbo.Umbraco.Fetch.Scheduling {
 
         private static TimeSpan Delay => TimeSpan.FromMinutes(1);
 
-        public FetchTask(FetchService fetchService) : base(Period, Delay) {
+        public FetchTask(ILogger<FetchTask> logger, FetchService fetchService) : base(logger, Period, Delay) {
             _fetchService = fetchService;
         }
 

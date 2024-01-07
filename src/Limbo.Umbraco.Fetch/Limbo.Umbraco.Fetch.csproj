@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
-    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>9.0.0</VersionPrefix>
+    <VersionPrefix>10.0.0-alpha001</VersionPrefix>
     <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
@@ -20,17 +20,17 @@
     <PackageId>Limbo.Umbraco.Fetch</PackageId>
     <PackageTags>Skybrud, Limbo, Umbraco, Fetch, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.fetch/v9.0/</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.fetch/v10.0/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v9/main</RepositoryUrl>
+    <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v10/main</RepositoryUrl>
   </PropertyGroup>
 
   <!-- Include NuGet dependencies -->
   <ItemGroup>
     <PackageReference Include="Skybrud.Essentials.Http" Version="1.1.5" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="[9.0.0,9.999)" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[9.0.0,9.999)" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="[10.0.0,12.999)" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[10.0.0,12.999)" />
   </ItemGroup>
 
   <!-- Include package icon for NuGet -->
