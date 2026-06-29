@@ -50,6 +50,6 @@ public class FetchPackage {
     /// <summary>
     /// Gets the URL of the documentation for this package.
     /// </summary>
-    public const string DocumentationUrl = "https://packages.limbo.works/limbo.umbraco.fetch/v10.0/";
+    public const string DocumentationUrl = "https://packages.limbo.works/limbo.umbraco.fetch/v17.0/";
 
 }

@@ -15,22 +15,17 @@ namespace Limbo.Umbraco.Fetch.Services;
 /// <summary>
 /// Service for fetching configured feeds.
 /// </summary>
-public class FetchService {
+/// <remarks>
+/// Initializes a new instance based on the specified dependencies.
+/// </remarks>
+/// <param name="webHostEnvironment">The current <see cref="IWebHostEnvironment"/>.</param>
+/// <param name="fetchSettings">A reference to the fetch settings.</param>
+public class FetchService(IWebHostEnvironment webHostEnvironment, IOptions<FetchSettings> fetchSettings) {
 
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IOptions<FetchSettings> _fetchSettings;
+    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
+    private readonly IOptions<FetchSettings> _fetchSettings = fetchSettings;
 
     #region Constructors
-
-    /// <summary>
-    /// Initializes a new instance based on the specified dependencies.
-    /// </summary>
-    /// <param name="webHostEnvironment">The current <see cref="IWebHostEnvironment"/>.</param>
-    /// <param name="fetchSettings">A reference to the fetch settings.</param>
-    public FetchService(IWebHostEnvironment webHostEnvironment, IOptions<FetchSettings> fetchSettings) {
-        _webHostEnvironment = webHostEnvironment;
-        _fetchSettings = fetchSettings;
-    }
 
     #endregion
 
@@ -57,7 +52,7 @@ public class FetchService {
             log.AppendLine($"Fetching feed with alias '{feed.Alias}'...");
             log.AppendLine();
 
-            IHttpRequest? request = null;
+            HttpRequest? request = null;
             IHttpResponse? response = null;
 
             try {
@@ -71,8 +66,11 @@ public class FetchService {
 
                 string path1 = feed.AbsolutePath;
                 string path2 = $"{feed.AbsolutePath}.error";
-                string path3 = Path.GetDirectoryName(path1)!;
-
+                string? path3 = Path.GetDirectoryName(path1);
+                if (path3 == null) {
+                    log.AppendLine($"> Unable to determine directory for path: {path1}");
+                    continue;
+                }
                 if (!Directory.Exists(path3)) Directory.CreateDirectory(path3);
 
                 if (File.GetLastWriteTimeUtc(path1) > DateTime.UtcNow.Subtract(feed.Interval)) {
@@ -93,20 +91,18 @@ public class FetchService {
 
                 response = request.GetResponse();
 
-                log.AppendLine("> " + (int) response.StatusCode + " " + response.StatusCode);
+                if (response != null) {
+                    log.AppendLine("> " + (int) response.StatusCode + " " + response.StatusCode);
 
-                if ((int) response.StatusCode >= 200 && (int) response.StatusCode < 300) {
-
-                    File.WriteAllBytes(path1, response.BinaryBody);
-
-                    feed.OnSuccess?.Invoke(feed, request, response);
-
+                    if ((int) response.StatusCode >= 200 && (int) response.StatusCode < 300) {
+                        File.WriteAllBytes(path1, response.BinaryBody);
+                        feed.OnSuccess?.Invoke(feed, request, response);
+                    } else {
+                        File.WriteAllBytes(path2, response.BinaryBody);
+                        feed.OnError?.Invoke(feed, request, response, null);
+                    }
                 } else {
-
-                    File.WriteAllBytes(path2, response.BinaryBody);
-
-                    feed.OnError?.Invoke(feed, request, response, null);
-
+                    log.AppendLine("> No response received.");
                 }
 
             } catch (Exception ex) {

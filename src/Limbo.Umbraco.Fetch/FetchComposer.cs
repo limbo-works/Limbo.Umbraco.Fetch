@@ -21,7 +21,6 @@ public class FetchComposer : IComposer {
         builder.Services.AddSingleton<FetchService>();
         builder.Services.AddOptions<FetchSettings>().Configure<IConfiguration, IWebHostEnvironment>(ConfigureBinder);
         builder.Services.AddHostedService<FetchTask>();
-        builder.ManifestFilters().Append<FetchManifestFilter>();
     }
 
     private static void ConfigureBinder(FetchSettings settings, IConfiguration configuration, IWebHostEnvironment webHostEnvironment) {
@@ -31,7 +30,7 @@ public class FetchComposer : IComposer {
         IConfigurationSection? feeds = section?.GetSection("Feeds");
         if (feeds == null) return;
 
-        HashSet<string> aliases = new();
+        HashSet<string> aliases = [];
 
         foreach (IConfigurationSection child in feeds.GetChildren()) {
 

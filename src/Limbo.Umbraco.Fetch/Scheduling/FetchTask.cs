@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Limbo.Umbraco.Fetch.Services;
 using Microsoft.Extensions.Logging;
@@ -8,21 +9,28 @@ using Umbraco.Cms.Infrastructure.HostedServices;
 
 namespace Limbo.Umbraco.Fetch.Scheduling;
 
-public class FetchTask : RecurringHostedServiceBase {
+public class FetchTask(
+     ILogger<FetchTask> logger,
+     FetchService fetchService,
+     TimeProvider timeProvider) : RecurringHostedServiceBase(logger, Period, Delay, timeProvider) {
 
-    private readonly FetchService _fetchService;
+    private readonly FetchService _fetchService = fetchService;
 
     private static TimeSpan Period => TimeSpan.FromMinutes(1);
 
     private static TimeSpan Delay => TimeSpan.FromMinutes(1);
 
-    public FetchTask(ILogger<FetchTask> logger, FetchService fetchService) : base(logger, Period, Delay) {
-        _fetchService = fetchService;
+    public override Task PerformExecuteAsync(CancellationToken stoppingToken) {
+
+        if (stoppingToken.IsCancellationRequested) {
+            return Task.CompletedTask;
+        }
+
+        _fetchService.FetchAll();
+
+        return Task.CompletedTask;
+
     }
 
-    public override Task PerformExecuteAsync(object? state) {
-        _fetchService.FetchAll();
-        return Task.CompletedTask;
-    }
 
 }
