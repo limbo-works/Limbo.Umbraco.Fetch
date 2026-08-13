@@ -1,6 +1,6 @@
 # Limbo Fetch
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.Fetch/blob/v17/main/LICENSE.md)
 [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Fetch.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Fetch)
 [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Fetch.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Fetch)
 [![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.fetch)
@@ -15,24 +15,25 @@ For instance, as shown in [Configuration](#configuration), the package can be us
 
 ## Installation
 
-Install for Umbraco 13 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/13.0.0).
+Install for Umbraco 17 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/17.0.0-alpha000).
 
 .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Fetch --version 13.0.0
+dotnet add package Limbo.Umbraco.Fetch --version 17.0.0-alpha000
 ```
 
 NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.Fetch -Version 13.0.0
+Install-Package Limbo.Umbraco.Fetch -Version 17.0.0-alpha000
 ```
 
 For other versions of Umbraco, see the following branches:
 
-- [**`v9/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v9/main) (Umbraco 9)
-- [**`v10/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v10/main) (Umbraco 10, 11 and 12)
+- [**`v13/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v13/main) Umbraco 13
+- ~~[**`v10/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v10/main) Umbraco 10, 11 and 12~~ <sub title="Umbraco 10, 11 and 12 have reached end-of-life"><sup>(EOL)</sup></sub>
+- ~~[**`v9/main`**](https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v9/main) Umbraco 9~~ <sub title="Umbraco 9 has reached end-of-life"><sup>(EOL)</sup>
 
 
 

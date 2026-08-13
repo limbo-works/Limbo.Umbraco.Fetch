@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Limbo.Umbraco.Fetch.Models.Settings;
 using Limbo.Umbraco.Fetch.Scheduling;
 using Limbo.Umbraco.Fetch.Services;
+using Limbo.Umbraco.TwentyThree.Manifests;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using Skybrud.Essentials.Time.Xml;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Extensions;
+using Umbraco.Cms.Infrastructure.Manifest;
 
 #pragma warning disable CS1591
 
@@ -21,7 +23,7 @@ public class FetchComposer : IComposer {
         builder.Services.AddSingleton<FetchService>();
         builder.Services.AddOptions<FetchSettings>().Configure<IConfiguration, IWebHostEnvironment>(ConfigureBinder);
         builder.Services.AddHostedService<FetchTask>();
-        builder.ManifestFilters().Append<FetchManifestFilter>();
+        builder.Services.AddSingleton<IPackageManifestReader, FetchManifestReader>();
     }
 
     private static void ConfigureBinder(FetchSettings settings, IConfiguration configuration, IWebHostEnvironment webHostEnvironment) {
@@ -31,7 +33,7 @@ public class FetchComposer : IComposer {
         IConfigurationSection? feeds = section?.GetSection("Feeds");
         if (feeds == null) return;
 
-        HashSet<string> aliases = new();
+        HashSet<string> aliases = [];
 
         foreach (IConfigurationSection child in feeds.GetChildren()) {
 
