@@ -18,14 +18,25 @@ namespace Limbo.Umbraco.Fetch.Services;
 /// <remarks>
 /// Initializes a new instance based on the specified dependencies.
 /// </remarks>
-/// <param name="webHostEnvironment">The current <see cref="IWebHostEnvironment"/>.</param>
-/// <param name="fetchSettings">A reference to the fetch settings.</param>
-public class FetchService(IWebHostEnvironment webHostEnvironment, IOptions<FetchSettings> fetchSettings) {
+public class FetchService {
 
-    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
-    private readonly IOptions<FetchSettings> _fetchSettings = fetchSettings;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IOptions<FetchSettings> _fetchSettings;
 
     #region Constructors
+
+    /// <summary>
+    /// Service for fetching configured feeds.
+    /// </summary>
+    /// <remarks>
+    /// Initializes a new instance based on the specified dependencies.
+    /// </remarks>
+    /// <param name="webHostEnvironment">The current <see cref="IWebHostEnvironment"/>.</param>
+    /// <param name="fetchSettings">A reference to the fetch settings.</param>
+    public FetchService(IWebHostEnvironment webHostEnvironment, IOptions<FetchSettings> fetchSettings) {
+        _webHostEnvironment = webHostEnvironment;
+        _fetchSettings = fetchSettings;
+    }
 
     #endregion
 

@@ -9,16 +9,17 @@ using Umbraco.Cms.Infrastructure.HostedServices;
 
 namespace Limbo.Umbraco.Fetch.Scheduling;
 
-public class FetchTask(
-     ILogger<FetchTask> logger,
-     FetchService fetchService,
-     TimeProvider timeProvider) : RecurringHostedServiceBase(logger, Period, Delay, timeProvider) {
+public class FetchTask : RecurringHostedServiceBase {
 
-    private readonly FetchService _fetchService = fetchService;
+    private readonly FetchService _fetchService;
 
     private static TimeSpan Period => TimeSpan.FromMinutes(1);
 
     private static TimeSpan Delay => TimeSpan.FromMinutes(1);
+
+    public FetchTask(ILogger<FetchTask> logger, FetchService fetchService, TimeProvider timeProvider) : base(logger, Period, Delay, timeProvider) {
+        _fetchService = fetchService;
+    }
 
     public override Task PerformExecuteAsync(CancellationToken stoppingToken) {
 
@@ -31,6 +32,5 @@ public class FetchTask(
         return Task.CompletedTask;
 
     }
-
 
 }

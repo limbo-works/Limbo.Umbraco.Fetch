@@ -27,11 +27,16 @@
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v13/main</RepositoryUrl>
   </PropertyGroup>
 
+  <!-- Ignore vulnerabilities from transient dependencies -->
+  <PropertyGroup>
+    <NuGetAuditMode>direct</NuGetAuditMode>
+  </PropertyGroup>
+
   <!-- Include NuGet dependencies -->
   <ItemGroup>
     <PackageReference Include="Skybrud.Essentials.Http" Version="1.2.2" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="17.5.0" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="17.5.0" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="[17.5.0,17.999)" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[17.5.0,17.999)" />
   </ItemGroup>
 
   <!-- Include package icon for NuGet -->
