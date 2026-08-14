@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Skybrud.Essentials.Configuration;
+using Skybrud.Essentials.Time.Iso8601;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Infrastructure.Manifest;
@@ -32,13 +33,50 @@ public class FetchComposer : IComposer {
     }
 
     private static void ConfigureBinder(FetchSettings settings, IConfiguration configuration, IWebHostEnvironment webHostEnvironment) {
-
         IConfigurationSection section = configuration.GetSection("Limbo:Fetch");
+        ParseScheduling(section, settings);
+        ParseFeeds(section, settings);
+    }
 
+    private static void ParseScheduling(IConfiguration section, FetchSettings settings) {
+
+        // Get the section for scheduling settings
+        IConfigurationSection scheduling = section.GetSection("Scheduling");
+
+        // Read the "Enabled" property, defaulting to true if not specified. This is necessary
+        // because the configuration binder does not support default values for boolean properties
+        settings.Scheduling.IsEnabled = scheduling.GetBoolean("Enabled", true);
+
+        // Read the "Delay" and "Interval" properties as strings
+        string? delay = scheduling.GetString("Delay");
+        string? interval = scheduling.GetString("Interval");
+
+        // We don't need to parse normal TimeSpan values here, as the configuration binder will
+        // handle that for us. We only need to parse integer values and ISO 8601 durations
+
+        if (int.TryParse(delay, out int delayMinutes)) {
+            settings.Scheduling.Delay = TimeSpan.FromMinutes(delayMinutes);
+        } else if (Iso8601Utils.TryParseDuration(delay, out TimeSpan delayTimeSpan)) {
+            settings.Scheduling.Delay = delayTimeSpan;
+        }
+
+        if (int.TryParse(interval, out int internalMinutes)) {
+            settings.Scheduling.Interval = TimeSpan.FromMinutes(internalMinutes);
+        } else if (Iso8601Utils.TryParseDuration(interval, out TimeSpan internalTimeSpan)) {
+            settings.Scheduling.Interval = internalTimeSpan;
+        }
+
+    }
+
+    private static void ParseFeeds(IConfiguration section, FetchSettings settings) {
+
+        // Get the section for feed settings
         IConfigurationSection feeds = section.GetSection("Feeds");
 
+        // Create a hash set to keep track of aliases and ensure uniqueness
         HashSet<string> aliases = [];
 
+        // Iterate through each child section under "Feeds"
         foreach (IConfigurationSection child in feeds.GetChildren()) {
 
             // Read from properties from their respective child sections
