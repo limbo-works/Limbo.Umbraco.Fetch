@@ -15,18 +15,18 @@ For instance, as shown in [Configuration](#configuration), the package can be us
 
 ## Installation
 
-Install for Umbraco 17 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/17.0.0-alpha000).
+Install for Umbraco 17 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/17.0.0-alpha001).
 
 .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Fetch --version 17.0.0-alpha000
+dotnet add package Limbo.Umbraco.Fetch --version 17.0.0-alpha001
 ```
 
 NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.Fetch -Version 17.0.0-alpha000
+Install-Package Limbo.Umbraco.Fetch -Version 17.0.0-alpha001
 ```
 
 For other versions of Umbraco, see the following branches:
@@ -51,7 +51,7 @@ To configure the package, add a `Limbo:Fetch` section to your `appsettings.json`
         {
           "Alias": "MyBlog",
           "Url": "http://www.bjerner.dk/blog/rss",
-          "Path": "~/umbraco/Data/TEMP/Fetch/BjernerRss.xml",
+          "Path": "~/umbraco/Data/TEMP/Limbo/Fetch/BjernerRss.xml",
           "Interval": 30
         }
       ]

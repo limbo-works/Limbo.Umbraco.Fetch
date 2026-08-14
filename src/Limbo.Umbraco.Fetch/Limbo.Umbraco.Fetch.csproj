@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-	<VersionPrefix>17.0.0-alpha000</VersionPrefix>
+	<VersionPrefix>17.0.0-alpha001</VersionPrefix>
 	<VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
@@ -21,10 +21,10 @@
     <PackageId>Limbo.Umbraco.Fetch</PackageId>
     <PackageTags>Skybrud, Limbo, Umbraco, Fetch, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.fetch/v13.0/</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.fetch/v17/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v13/main</RepositoryUrl>
+    <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v17/main</RepositoryUrl>
   </PropertyGroup>
 
   <!-- Ignore vulnerabilities from transient dependencies -->
@@ -50,11 +50,10 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
-
+  <!-- Include custom appsettings schema -->
   <ItemGroup>
     <None Include="appsettings-schema.Limbo.Umbraco.Fetch.json" Pack="true" PackagePath="" />
     <None Include="buildTransitive/Limbo.Umbraco.Fetch.props" Pack="true" PackagePath="buildTransitive/" />
   </ItemGroup>
-
 
 </Project>
