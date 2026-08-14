@@ -9,6 +9,11 @@ namespace Limbo.Umbraco.Fetch.Models.Settings;
 public class FetchSettings {
 
     /// <summary>
+    /// Gets or sets the scheduling settings for fetch operations.
+    /// </summary>
+    public FetchSchedulingSettings Scheduling { get; set; } = new();
+
+    /// <summary>
     /// Gets a list of configured feeds.
     /// </summary>
     public List<FetchFeed> Feeds { get; set; } = [];

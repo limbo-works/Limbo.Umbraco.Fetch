@@ -20,10 +20,15 @@ namespace Limbo.Umbraco.Fetch.Composers;
 public class FetchComposer : IComposer {
 
     public void Compose(IUmbracoBuilder builder) {
+
         builder.Services.AddSingleton<FetchService>();
         builder.Services.AddOptions<FetchSettings>().Configure<IConfiguration, IWebHostEnvironment>(ConfigureBinder);
-        builder.Services.AddHostedService<FetchTask>();
         builder.Services.AddSingleton<IPackageManifestReader, FetchManifestReader>();
+
+        if (builder.Config.GetBoolean("Limbo:Fetch:Scheduling:Enabled", true)) {
+            builder.Services.AddHostedService<FetchTask>();
+        }
+
     }
 
     private static void ConfigureBinder(FetchSettings settings, IConfiguration configuration, IWebHostEnvironment webHostEnvironment) {
