@@ -50,7 +50,7 @@ public class FetchService {
     /// </summary>
     /// <returns>The absolute path of the data directory.</returns>
     public virtual string GetDataDirectory() {
-        return _webHostEnvironment.MapPathContentRoot($"{Constants.SystemDirectories.Data}/Limbo/Fetch");
+        return _webHostEnvironment.MapPathContentRoot($"{Constants.SystemDirectories.TempData}/Limbo/Fetch");
     }
 
     /// <summary>
