@@ -14,27 +14,22 @@ public class FetchFeed {
     /// <summary>
     /// Gets or sets the alias of the feed.
     /// </summary>
-    public string Alias { get; set; } = null!;
+    public required string Alias { get; set; }
 
     /// <summary>
     /// Gets or sets the URL of the feed.
     /// </summary>
-    public string Url { get; set; } = null!;
+    public required string Url { get; set; }
 
     /// <summary>
     /// Gets or sets the path of the feed.
     /// </summary>
-    public string Path { get; set; } = null!;
-
-    /// <summary>
-    /// Gets or sets the path of the feed.
-    /// </summary>
-    public string AbsolutePath { get; set; } = null!;
+    public required string Path { get; set; }
 
     /// <summary>
     /// Gets or sets the internal.
     /// </summary>
-    public TimeSpan Interval { get; set; }
+    public required TimeSpan Interval { get; set; }
 
     /// <summary>
     /// Gets or sets a callback to be used before getting the response.

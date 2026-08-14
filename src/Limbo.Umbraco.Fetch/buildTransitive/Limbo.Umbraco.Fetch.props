@@ -1,0 +1,7 @@
+﻿<Project>
+  <ItemGroup>
+    <UmbracoJsonSchemaFiles
+      Include="$(MSBuildThisFileDirectory)..\appsettings-schema.Limbo.Umbraco.Fetch.json"
+      Weight="-80" />
+  </ItemGroup>
+</Project>

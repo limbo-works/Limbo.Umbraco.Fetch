@@ -71,12 +71,10 @@ public class FetchService {
                 if (string.IsNullOrWhiteSpace(feed.Url)) throw new PropertyNotSetException(nameof(feed.Url));
                 if (string.IsNullOrWhiteSpace(feed.Path)) throw new PropertyNotSetException(nameof(feed.Path));
 
-                if (string.IsNullOrWhiteSpace(feed.AbsolutePath)) {
-                    feed.AbsolutePath = feed.Path.StartsWith("~/") ? _webHostEnvironment.MapPathContentRoot(feed.Path) : feed.Path;
-                }
+                string absolutePath = feed.Path.StartsWith("~/") ? _webHostEnvironment.MapPathContentRoot(feed.Path) : feed.Path;
 
-                string path1 = feed.AbsolutePath;
-                string path2 = $"{feed.AbsolutePath}.error";
+                string path1 = absolutePath;
+                string path2 = $"{absolutePath}.error";
                 string? path3 = Path.GetDirectoryName(path1);
                 if (path3 == null) {
                     log.AppendLine($"> Unable to determine directory for path: {path1}");
@@ -102,18 +100,14 @@ public class FetchService {
 
                 response = request.GetResponse();
 
-                if (response != null) {
-                    log.AppendLine("> " + (int) response.StatusCode + " " + response.StatusCode);
+                log.AppendLine("> " + (int) response.StatusCode + " " + response.StatusCode);
 
-                    if ((int) response.StatusCode >= 200 && (int) response.StatusCode < 300) {
-                        File.WriteAllBytes(path1, response.BinaryBody);
-                        feed.OnSuccess?.Invoke(feed, request, response);
-                    } else {
-                        File.WriteAllBytes(path2, response.BinaryBody);
-                        feed.OnError?.Invoke(feed, request, response, null);
-                    }
+                if ((int) response.StatusCode >= 200 && (int) response.StatusCode < 300) {
+                    File.WriteAllBytes(path1, response.BinaryBody);
+                    feed.OnSuccess?.Invoke(feed, request, response);
                 } else {
-                    log.AppendLine("> No response received.");
+                    File.WriteAllBytes(path2, response.BinaryBody);
+                    feed.OnError?.Invoke(feed, request, response, null);
                 }
 
             } catch (Exception ex) {

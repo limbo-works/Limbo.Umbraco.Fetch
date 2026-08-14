@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Limbo.Umbraco.Fetch;
-using Skybrud.Essentials.Security.Extensions;
 using Umbraco.Cms.Core.Manifest;
 using Umbraco.Cms.Infrastructure.Manifest;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace Limbo.Umbraco.TwentyThree.Manifests;
+namespace Limbo.Umbraco.Fetch.Manifests;
 
 public class FetchManifestReader : IPackageManifestReader {
 
