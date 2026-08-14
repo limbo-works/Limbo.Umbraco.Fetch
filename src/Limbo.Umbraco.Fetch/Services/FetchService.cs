@@ -10,6 +10,7 @@ using Skybrud.Essentials.Common;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Time;
 using Skybrud.Essentials.Time.Iso8601;
+using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Extensions;
 
 namespace Limbo.Umbraco.Fetch.Services;
@@ -45,6 +46,43 @@ public class FetchService {
     #region Member methods
 
     /// <summary>
+    /// Returns the absolute path of the data directory used by the <strong>Fetch</strong> package.
+    /// </summary>
+    /// <returns>The absolute path of the data directory.</returns>
+    public virtual string GetDataDirectory() {
+        return _webHostEnvironment.MapPathContentRoot($"{Constants.SystemDirectories.Data}/Limbo/Fetch");
+    }
+
+    /// <summary>
+    /// Returns the absolute path of the specified <paramref name="feed"/>.
+    /// </summary>
+    /// <param name="feed">The feed to get the absolute path for.</param>
+    /// <returns>The absolute path of the feed.</returns>
+    /// <exception cref="PropertyNotSetException">If the <see cref="FetchFeed.Path"/> property is not set.</exception>
+    public virtual string GetAbsolutePath(FetchFeed feed) {
+
+        if (string.IsNullOrWhiteSpace(feed.Path)) throw new PropertyNotSetException(nameof(feed.Path));
+
+        string path = feed.Path;
+
+        // Replace {Alias} placeholder in path with the actual alias of the feed
+        path = path.Replace("{Alias}", feed.Alias);
+
+        // If the path is a file name, combine it with the data directory to get the absolute path
+        if (IsFileName(path)) return Path.Combine(GetDataDirectory(), path);
+
+        // If the path starts with "~/", map it to the content root of the web host environment
+        if (path.StartsWith("~/")) return _webHostEnvironment.MapPathContentRoot(path);
+
+        return path;
+
+        static bool IsFileName(string value) {
+            return !Path.IsPathRooted(value) && !value.Contains(Path.DirectorySeparatorChar) && !value.Contains(Path.AltDirectorySeparatorChar);
+        }
+
+    }
+
+    /// <summary>
     /// Attempts to fetch all configured feeds.
     /// </summary>
     public async Task<FetchAllResult> FetchAll() {
@@ -73,7 +111,7 @@ public class FetchService {
                 if (string.IsNullOrWhiteSpace(feed.Url)) throw new PropertyNotSetException(nameof(feed.Url));
                 if (string.IsNullOrWhiteSpace(feed.Path)) throw new PropertyNotSetException(nameof(feed.Path));
 
-                string absolutePath = feed.Path.StartsWith("~/") ? _webHostEnvironment.MapPathContentRoot(feed.Path) : feed.Path;
+                string absolutePath = GetAbsolutePath(feed);
 
                 string path1 = absolutePath;
                 string path2 = $"{absolutePath}.error";
