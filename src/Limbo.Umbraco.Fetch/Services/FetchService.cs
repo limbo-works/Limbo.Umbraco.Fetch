@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using Limbo.Umbraco.Fetch.Models;
 using Limbo.Umbraco.Fetch.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
@@ -45,7 +47,7 @@ public class FetchService {
     /// <summary>
     /// Attempts to fetch all configured feeds.
     /// </summary>
-    public StringBuilder FetchAll() {
+    public async Task<FetchAllResult> FetchAll() {
 
         StringBuilder log = new();
 
@@ -98,15 +100,15 @@ public class FetchService {
 
                 feed.PrepareRequest?.Invoke(feed, request);
 
-                response = request.GetResponse();
+                response = await request.GetResponseAsync();
 
                 log.AppendLine("> " + (int) response.StatusCode + " " + response.StatusCode);
 
                 if ((int) response.StatusCode >= 200 && (int) response.StatusCode < 300) {
-                    File.WriteAllBytes(path1, response.BinaryBody);
+                    await File.WriteAllBytesAsync(path1, response.BinaryBody);
                     feed.OnSuccess?.Invoke(feed, request, response);
                 } else {
-                    File.WriteAllBytes(path2, response.BinaryBody);
+                    await File.WriteAllBytesAsync(path2, response.BinaryBody);
                     feed.OnError?.Invoke(feed, request, response, null);
                 }
 
@@ -120,7 +122,7 @@ public class FetchService {
 
         }
 
-        return log;
+        return new FetchAllResult(log);
 
     }
 

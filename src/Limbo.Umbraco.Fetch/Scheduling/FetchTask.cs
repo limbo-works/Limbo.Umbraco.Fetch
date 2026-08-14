@@ -21,16 +21,9 @@ public class FetchTask : RecurringHostedServiceBase {
         _fetchService = fetchService;
     }
 
-    public override Task PerformExecuteAsync(CancellationToken stoppingToken) {
-
-        if (stoppingToken.IsCancellationRequested) {
-            return Task.CompletedTask;
-        }
-
-        _fetchService.FetchAll();
-
-        return Task.CompletedTask;
-
+    public override async Task PerformExecuteAsync(CancellationToken stoppingToken) {
+        if (stoppingToken.IsCancellationRequested) return;
+        await _fetchService.FetchAll();
     }
 
 }
