@@ -11,7 +11,7 @@ public class FetchSettings {
     /// <summary>
     /// Gets a list of configured feeds.
     /// </summary>
-    public List<FetchFeed> Feeds { get; internal set; } = [];
+    public List<FetchFeed> Feeds { get; set; } = [];
 
     /// <summary>
     /// Returns whether a feed with the specified <paramref name="alias"/> exists in the <see cref="Feeds"/> collection.
