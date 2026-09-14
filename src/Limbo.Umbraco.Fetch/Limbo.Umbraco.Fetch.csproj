@@ -12,7 +12,8 @@
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
-    <Title>Limbo Fetch</Title>
+    <Product>Limbo Fetch</Product>
+    <Title>$(Product)</Title>
     <Description>Package for periodically downloading files to disk.</Description>
   </PropertyGroup>
 
@@ -26,6 +27,15 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v17/main</RepositoryUrl>
   </PropertyGroup>
+
+  <!-- Include additional metadata in the assembly -->
+  <ItemGroup>
+    <AssemblyMetadata Include="Authors" Value="$(Authors)" />
+    <AssemblyMetadata Include="PackageProjectUrl" Value="https://packages.limbo.works/limbo.umbraco.fetch/v17/" />
+    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.umbraco.fetch/docs/v17/" />
+    <AssemblyMetadata Include="NuGetUrl" Value="https://www.nuget.org/packages/Limbo.Umbraco.Fetch" />
+    <AssemblyMetadata Include="UmbracoMarketplaceUrl" Value="https://marketplace.umbraco.com/package/limbo.umbraco.fetch" />
+  </ItemGroup>
 
   <!-- Ignore vulnerabilities from transient dependencies -->
   <PropertyGroup>
