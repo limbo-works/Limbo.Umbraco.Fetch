@@ -15,18 +15,18 @@ For instance, as shown in [Configuration](#configuration), the package can be us
 
 ## Installation
 
-Install for Umbraco 17 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch/17.0.0-alpha001).
+Install for Umbraco 17 via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Fetch).
 
 .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Fetch --version 17.0.0-alpha001
+dotnet add package Limbo.Umbraco.Fetch --version 17.0.0
 ```
 
 NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.Fetch -Version 17.0.0-alpha001
+Install-Package Limbo.Umbraco.Fetch -Version 17.0.0
 ```
 
 For other versions of Umbraco, see the following branches:
