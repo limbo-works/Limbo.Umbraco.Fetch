@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="../.gitignore" />
+    <File Path="../debug.bat" />
+    <File Path="../LICENSE.md" />
+    <File Path="../README.md" />
+    <File Path="../release.bat" />
+    <File Path="Limbo.Umbraco.Fetch.sln.DotSettings" />
+  </Folder>
+  <Project Path="Limbo.Umbraco.Fetch/Limbo.Umbraco.Fetch.csproj" />
+</Solution>

@@ -21,11 +21,20 @@
     <PackageId>Limbo.Umbraco.Fetch</PackageId>
     <PackageTags>Skybrud, Limbo, Umbraco, Fetch, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.fetch/v13.0/</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.fetch/v13/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Fetch/tree/v13/main</RepositoryUrl>
   </PropertyGroup>
+
+  <!-- Include additional metadata in the assembly -->
+  <ItemGroup>
+    <AssemblyMetadata Include="Authors" Value="$(Authors)" />
+    <AssemblyMetadata Include="PackageProjectUrl" Value="https://packages.limbo.works/limbo.umbraco.fetch/" />
+    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.umbraco.fetch/docs/" />
+    <AssemblyMetadata Include="NuGetUrl" Value="https://www.nuget.org/packages/Limbo.Umbraco.Fetch" />
+    <AssemblyMetadata Include="BuildDate" Value="$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))" />
+  </ItemGroup>
 
   <!-- Include NuGet dependencies -->
   <ItemGroup>
